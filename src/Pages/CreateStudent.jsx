@@ -185,3 +185,7 @@ const CreateStudent = () => {
 }
 
 export default CreateStudent
+
+//THINGS TO DO:
+//->make the changes make by adding, deleting, updating students in this component change the state of students in ListStudents.jsx
+//->create different components for create, delete, update students 
