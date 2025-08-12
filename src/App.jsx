@@ -1,15 +1,19 @@
 import React from 'react'
 import './App.css'
 import ListStudents from './Pages/ListStudents'
-import CreateStudent from './Pages/CreateStudent'
+import Home from './Pages/Home'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './Components/Navbar';
 
 function App() {
-
   return (
-    <>
-      <ListStudents />
-      <CreateStudent />
-    </>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<ListStudents />} />
+        <Route path="/manage" element={<Home />} />
+      </Routes>
+    </Router>
   )
 }
 
