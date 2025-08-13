@@ -32,6 +32,7 @@ const Home = () => {
         }
     };
 
+    // Function to handle form submission as FormData
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Submitting...", formData);
@@ -109,59 +110,41 @@ const Home = () => {
         }
     };
 
+
+    // Function to handle update submission as JSON only
     const handleUpdateSubmit = async (e) => {
+    try {
         e.preventDefault();
-        
-        if (!updateId) {
-            alert("Please enter a student ID");
+        console.log("Updating student with ID:", updateId);
+        console.log("Update form data:", formData);
+        const response = await fetch(
+            `http://localhost:8080/api/students/${updateId}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formData.name.trim(),
+                    email: formData.email.trim(),
+                    phone: formData.phone?.trim() || null
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert(`Error updating student: ${response.status} - ${errorText}`);
             return;
         }
-        
-        console.log("Updating student...", formData);
-        
-        // Create FormData object for form submission
-        const formDataObj = new FormData();
-        formDataObj.append('name', formData.name.trim());
-        formDataObj.append('email', formData.email.trim());
-        
-        // Only add phone if it has a value
-        if (formData.phone && formData.phone.trim()) {
-            formDataObj.append('phone', formData.phone.trim());
-        }
-        
-        // Log FormData contents
-        console.log("Update FormData contents:");
-        for (let [key, value] of formDataObj.entries()) {
-            console.log(key + ': ' + value);
-        }
-        
-        try {
-            const response = await fetch(`http://localhost:8080/api/students/${updateId}`, {
-                method: 'PUT',
-                body: formDataObj  // No Content-Type header needed for FormData
-            });
-            
-            console.log("Update response status:", response.status);
-            console.log("Update response content-type:", response.headers.get('content-type'));
-            
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Error updating student:", response.status, response.statusText);
-                console.error("Error response body:", errorText);
-                alert(`Error updating student: ${response.status} - ${errorText}`);
-                return;
-            }    
-            
-            const data = await response.json();
-            console.log("Update success:", response.status, data);
-            alert("Student updated successfully!");
-            setFormData({ name: '', email: '', phone: '' }); 
-            setUpdateId('');
-        } catch (error) {
-            console.error("Error updating student:", error);
-            alert("Network error occurred while updating student: " + error.message);
-        }
-    };
+
+        const data = await response.json();
+        console.log("Update success:", response.status, data);
+        alert("Student updated successfully!");
+    } catch (error) {
+        alert("Network error: " + error.message);
+    }
+}
 
     return (
         <>

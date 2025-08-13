@@ -50,73 +50,36 @@ const ListStudents = () => {
         setEditModalOpen(true);
     }
 
-    const handleEditSave = async (updatedStudent) => {
-    // Create FormData object for form submission
-    const formDataObj = new FormData();
-    formDataObj.append('name', updatedStudent.name.trim());
-    formDataObj.append('email', updatedStudent.email.trim());
-
-    // Only add phone if it has a value
-    if (updatedStudent.phone && updatedStudent.phone.trim()) {
-        formDataObj.append('phone', updatedStudent.phone.trim());
-    }
-
-    // Log FormData contents for debugging
-    console.log("Update FormData contents:");
-    for (let [key, value] of formDataObj.entries()) {
-        console.log(`${key}: ${value}`);
-    }
-
-    try {
-        const response = await fetch(`http://localhost:8080/api/students/${updatedStudent.studentId}`, {
-            method: 'PUT',
-            body: formDataObj // No Content-Type header when sending FormData
-        });
-
-        console.log("Update response status:", response.status);
-        console.log("Update response content-type:", response.headers.get('content-type'));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Error updating student:", response.status, response.statusText);
-            console.error("Error response body:", errorText);
-            alert(`Error updating student: ${response.status} - ${errorText}`);
-            return;
-        }
-
-        const data = await response.json();
-        console.log("Update success:", response.status, data);
-        alert("Student updated successfully!");
-
-        await fetchStudents(currentPage); // Refresh the student list
-    } catch (error) {
-        console.error("Error updating student:", error);
-        alert("Network error occurred while updating student: " + error.message);
-    }
-
-    setEditModalOpen(false);
-    setSelectedStudent(null);
-};
-
 //     const handleEditSave = async (updatedStudent) => {
+//     // Create FormData object for form submission
+//     const formDataObj = new FormData();
+//     formDataObj.append('name', updatedStudent.name.trim());
+//     formDataObj.append('email', updatedStudent.email.trim());
+
+//     // Only add phone if it has a value
+//     if (updatedStudent.phone && updatedStudent.phone.trim()) {
+//         formDataObj.append('phone', updatedStudent.phone.trim());
+//     }
+
+//     // Log FormData contents for debugging
+//     console.log("Update FormData contents:");
+//     for (let [key, value] of formDataObj.entries()) {
+//         console.log(`${key}: ${value}`);
+//     }
+
 //     try {
-//         const response = await fetch(
-//             `http://localhost:8080/api/students/${updatedStudent.studentId}`,
-//             {
-//                 method: 'PUT',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({
-//                     name: updatedStudent.name.trim(),
-//                     email: updatedStudent.email.trim(),
-//                     phone: updatedStudent.phone?.trim() || null
-//                 })
-//             }
-//         );
+//         const response = await fetch(`http://localhost:8080/api/students/${updatedStudent.studentId}`, {
+//             method: 'PUT',
+//             body: formDataObj // No Content-Type header when sending FormData
+//         });
+
+//         console.log("Update response status:", response.status);
+//         console.log("Update response content-type:", response.headers.get('content-type'));
 
 //         if (!response.ok) {
 //             const errorText = await response.text();
+//             console.error("Error updating student:", response.status, response.statusText);
+//             console.error("Error response body:", errorText);
 //             alert(`Error updating student: ${response.status} - ${errorText}`);
 //             return;
 //         }
@@ -124,13 +87,50 @@ const ListStudents = () => {
 //         const data = await response.json();
 //         console.log("Update success:", response.status, data);
 //         alert("Student updated successfully!");
-//         await fetchStudents(currentPage); // refresh list
+
+//         await fetchStudents(currentPage); // Refresh the student list
 //     } catch (error) {
-//         alert("Network error: " + error.message);
+//         console.error("Error updating student:", error);
+//         alert("Network error occurred while updating student: " + error.message);
 //     }
+
 //     setEditModalOpen(false);
 //     setSelectedStudent(null);
 // };
+
+    const handleEditSave = async (updatedStudent) => {
+    try {
+        const response = await fetch(
+            `http://localhost:8080/api/students/${updatedStudent.studentId}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: updatedStudent.name.trim(),
+                    email: updatedStudent.email.trim(),
+                    phone: updatedStudent.phone?.trim() || null
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert(`Error updating student: ${response.status} - ${errorText}`);
+            return;
+        }
+
+        const data = await response.json();
+        console.log("Update success:", response.status, data);
+        alert("Student updated successfully!");
+        await fetchStudents(currentPage); // refresh list
+    } catch (error) {
+        alert("Network error: " + error.message);
+    }
+    setEditModalOpen(false);
+    setSelectedStudent(null);
+};
 
 
 
