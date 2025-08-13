@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 
 const EditStudentModal = ({ isOpen, onClose, student, onSave }) => {
     const [form, setForm] = useState({
-        id: student?.id || '',
+        studentId: student?.studentId || '',
         name: student?.name || '',
-        email: student?.email || ''
+        email: student?.email || '',
+        phone: student?.phone || ''
     });
 
     // Update form when student changes
     React.useEffect(() => {
         setForm({
-            id: student?.id || '',
+            studentId: student?.studentId || '',
             name: student?.name || '',
-            email: student?.email || ''
+            email: student?.email || '',
+            phone: student?.phone || ''
         });
     }, [student]);
 
@@ -44,22 +46,22 @@ const EditStudentModal = ({ isOpen, onClose, student, onSave }) => {
                 </button>
                 <h2 className="text-xl font-bold mb-4 text-center">Edit Student</h2>
                 <div className="mb-4 flex flex-col gap-2">
-                    <label className="font-semibold">ID:</label>
+                    {/* <label className="font-semibold">Student ID:</label>
                     <input
                         type="number"
-                        name="id"
-                        value={form.id}
+                        name="studentId"
+                        value={form.studentId}
                         onChange={handleChange}
-                        className="border border-gray-300 rounded-md px-3 py-2"
+                        className="border border-gray-300 rounded-md px-3 py-2 bg-gray-100"
                         disabled
-                    />
+                    /> */}
                     <label className="font-semibold">Name:</label>
                     <input
                         type="text"
                         name="name"
                         value={form.name}
                         onChange={handleChange}
-                        className="border border-gray-300 rounded-md px-3 py-2"
+                        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         required
                     />
                     <label className="font-semibold">Email:</label>
@@ -68,8 +70,17 @@ const EditStudentModal = ({ isOpen, onClose, student, onSave }) => {
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        className="border border-gray-300 rounded-md px-3 py-2"
+                        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         required
+                    />
+                    <label className="font-semibold">Phone:</label>
+                    <input
+                        type="tel"
+                        name="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Optional"
                     />
                 </div>
                 <div className="flex justify-center gap-4 mt-4">
