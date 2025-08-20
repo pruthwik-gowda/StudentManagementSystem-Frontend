@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StudentCard = ({ name, email, handleViewDetailsClick, handleEditClick }) => (
+const InfoCard = ({ name, email, handleViewDetailsClick, handleEditClick }) => (
     <div
         className="flex flex-col items-center w-76 h-35 p-6 shadow-lg rounded-xl cursor-pointer text-center font-sans hover:brightness-95 transition-all duration-300"
         style={{
@@ -29,4 +29,4 @@ const StudentCard = ({ name, email, handleViewDetailsClick, handleEditClick }) =
     </div>
 );
 
-export default StudentCard;
+export default InfoCard;

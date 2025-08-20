@@ -13,6 +13,7 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex gap-6">
             <Link to="/" className="hover:text-white/80 transition">Student List</Link>
+            <Link to="/teacher" className="hover:text-white/80 transition">Teacher List</Link>
             <Link to="/manage" className="hover:text-white/80 transition">Manage Students</Link>
           </div>
           <div className="md:hidden flex items-center">
@@ -41,6 +42,13 @@ const Navbar = () => {
             onClick={() => setOpen(false)}
           >
             Student List
+          </Link>
+          <Link
+            to="/teacher"
+            className="block py-2 hover:text-white/80 transition"
+            onClick={() => setOpen(false)}
+          >
+            Teacher List
           </Link>
           <Link
             to="/manage"
